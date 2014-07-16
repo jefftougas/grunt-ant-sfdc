@@ -272,12 +272,12 @@ module.exports = function(grunt) {
     if (!options.existingPackage) {
       var packageXml = buildPackageXml(this.data.pkg, this.data.pkgName, options.apiVersion);
       grunt.file.write(path.join(options.root,'/package.xml'), packageXml);
+    } 
+    
+    if(grunt.file.exists(options.root,'/package.xml')){
+      grunt.file.copy(path.join(options.root,'/package.xml'), path.join(localTmp,'/package.xml'));
     } else {
-      if(grunt.file.exists(options.root,'/package.xml')){
-        grunt.file.copy(path.join(options.root,'/package.xml'), path.join(localTmp,'/package.xml'));
-      } else {
-        grunt.log.error('No Package.xml file found in ' + options.root);
-      }
+      grunt.log.error('No Package.xml file found in ' + options.root);
     }
 
     runAnt('retrieve', target, function(err, result) {
